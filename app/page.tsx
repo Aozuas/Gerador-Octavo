@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { Analytics } from "@vercel/analytics/next"
 
 export default function GeradorOctavo() {
   const [textoLongo, setTextoLongo] = useState('');
