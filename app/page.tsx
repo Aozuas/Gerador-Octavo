@@ -29,8 +29,9 @@ export default function GeradorOctavo() {
 
   const { conteudo, totalPreenchidas } = fatiarTextoManual(textoLongo);
 
-  const RenderSheet = ({ paginas, titulo }: { paginas: number[], titulo: string }) => (
-    <div className="w-[297mm] h-[210mm] bg-white border border-gray-300 mx-auto mb-12 shadow-md print:shadow-none print:mb-0 print:border-none print:break-after-page flex flex-col relative overflow-hidden">
+  // Adicionamos a propriedade "isLast" para controlar a quebra de página
+  const RenderSheet = ({ paginas, titulo, isLast = false }: { paginas: number[], titulo: string, isLast?: boolean }) => (
+    <div className={`w-[297mm] h-[210mm] bg-white border border-gray-300 mx-auto mb-12 shadow-md print:shadow-none print:mb-0 print:border-none flex flex-col relative overflow-hidden ${isLast ? '' : 'print:break-after-page'}`}>
       <div className="absolute top-2 left-2 text-xs text-gray-400 print:hidden">{titulo}</div>
       <div className="grid grid-cols-4 grid-rows-2 w-full h-full">
         {paginas.map((num, i) => {
@@ -70,17 +71,14 @@ export default function GeradorOctavo() {
                         del: ({node, ...props}) => <del className="line-through text-gray-500" {...props} />,
                         hr: ({node, ...props}) => <hr className="my-4 border-t border-gray-300" {...props} />,
                         a: ({node, ...props}) => <a className="text-blue-600 underline" target="_blank" rel="noopener noreferrer" {...props} />,
-                        // Configuração especial para Imagens não quebrarem a página
                         img: ({node, ...props}) => (
                           <span className="flex justify-center my-3">
                             <img className="max-w-full h-auto max-h-40 object-contain grayscale print:grayscale-0" {...props} alt={props.alt || "Imagem do livro"} />
                           </span>
                         ),
-                        // Configuração para Tabelas
                         table: ({node, ...props}) => <div className="mb-3 overflow-hidden"><table className="w-full text-[0.9em] border-collapse border border-gray-300" {...props} /></div>,
                         th: ({node, ...props}) => <th className="border border-gray-300 bg-gray-50 px-2 py-1 font-bold text-left" {...props} />,
                         td: ({node, ...props}) => <td className="border border-gray-300 px-2 py-1" {...props} />,
-                        // Configuração para Códigos
                         code: ({node, className, children, ...props}) => {
                           const match = /language-(\w+)/.exec(className || '')
                           const isInline = !match && !String(children).includes('\n')
@@ -120,7 +118,6 @@ export default function GeradorOctavo() {
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Gerador de Octavo Editorial</h1>
         <p className="text-gray-600 mb-6">Controle preciso com suporte a 100% da sintaxe Markdown (Imagens, Tabelas, Links, etc).</p>
         
-        {/* GUIA RÁPIDO EXPANDIDO */}
         <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg mb-8 text-sm text-blue-800 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <strong className="block mb-2 font-bold">Básico:</strong>
@@ -231,8 +228,11 @@ export default function GeradorOctavo() {
         </div>
       </div>
 
+      {/* A folha da Frente aplica a quebra de página normalmente */}
       <RenderSheet paginas={paginasFrente} titulo="Folha 1 - FRENTE" />
-      <RenderSheet paginas={paginasVerso} titulo="Folha 1 - VERSO" />
+      
+      {/* A folha do Verso avisa o componente que é a última, impedindo a folha em branco */}
+      <RenderSheet paginas={paginasVerso} titulo="Folha 1 - VERSO" isLast={true} />
       
     </main>
   );
