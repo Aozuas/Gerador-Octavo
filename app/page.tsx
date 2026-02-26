@@ -29,7 +29,6 @@ export default function GeradorOctavo() {
 
   const { conteudo, totalPreenchidas } = fatiarTextoManual(textoLongo);
 
-  // Adicionamos a propriedade "isLast" para controlar a quebra de página
   const RenderSheet = ({ paginas, titulo, isLast = false }: { paginas: number[], titulo: string, isLast?: boolean }) => (
     <div className={`w-[297mm] h-[210mm] bg-white border border-gray-300 mx-auto mb-12 shadow-md print:shadow-none print:mb-0 print:border-none flex flex-col relative overflow-hidden ${isLast ? '' : 'print:break-after-page'}`}>
       <div className="absolute top-2 left-2 text-xs text-gray-400 print:hidden">{titulo}</div>
@@ -45,14 +44,15 @@ export default function GeradorOctavo() {
                 ${isUpsideDown ? 'rotate-180' : ''}
               `}
             >
-              <div className="flex-1 flex flex-col p-5">
+              <div className="flex-1 flex flex-col p-5 h-full overflow-hidden">
                 
                 <div className="text-[8px] text-gray-400 text-center uppercase tracking-widest mb-3 border-b border-gray-100 pb-1 font-sans shrink-0">
                   {tituloLivro || 'Título do Livreto'}
                 </div>
 
+                {/* Aqui está a trava de segurança visual: overflow-y-auto na tela, mas escondido na impressão */}
                 <div 
-                  className={`flex-1 overflow-hidden leading-relaxed text-gray-800 ${familiaFonte} ${alinhamento}`}
+                  className={`flex-1 overflow-y-auto print:overflow-hidden leading-relaxed text-gray-800 ${familiaFonte} ${alinhamento} scrollbar-thin scrollbar-thumb-gray-200`}
                   style={{ fontSize: `${tamanhoFonte}px` }}
                 >
                   {textoDaPagina ? (
@@ -228,12 +228,14 @@ export default function GeradorOctavo() {
         </div>
       </div>
 
-      {/* A folha da Frente aplica a quebra de página normalmente */}
       <RenderSheet paginas={paginasFrente} titulo="Folha 1 - FRENTE" />
-      
-      {/* A folha do Verso avisa o componente que é a última, impedindo a folha em branco */}
       <RenderSheet paginas={paginasVerso} titulo="Folha 1 - VERSO" isLast={true} />
       
+      {/* Assinatura e Link no Rodapé */}
+      <footer className="max-w-4xl mx-auto mt-8 print:hidden text-center text-sm text-gray-500 pb-10">
+        Desenvolvido por <span className="font-semibold">Aleph Ozoas</span> para a <a href="https://corrupiola.com.br" target="_blank" rel="noopener noreferrer" className="font-bold text-black hover:underline transition-all">Corrupiola</a>.
+      </footer>
+
     </main>
   );
 }
