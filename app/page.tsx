@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import Link from 'next/link';
-import { ArrowLeftRight, Printer, Sparkles, BookOpen, Upload } from 'lucide-react';
+import { ArrowLeftRight, Printer, Sparkles, BookOpen, Upload, Info } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
 export default function GeradorOctavo() {
   const [textoLongo, setTextoLongo] = useState('');
@@ -163,20 +164,16 @@ export default function GeradorOctavo() {
         {/* Header Section */}
         <div className="mb-10 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-200 text-xs font-semibold text-neutral-600 mb-4 transition-all hover:bg-neutral-200/50">
-              <Sparkles className="w-3.5 h-3.5" /> Open Source Tool
-            </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-neutral-900 tracking-tight mb-3">Gerador de Octavo Editorial</h1>
             <p className="text-neutral-500 text-sm sm:text-base max-w-xl leading-relaxed">Controle preciso com suporte a 100% da sintaxe Markdown. Crie livretos octavos perfeitos para diagramação manual.</p>
           </div>
 
-          <Link
-            href="/conversor"
-            className="group flex items-center gap-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-200 px-4 py-2.5 rounded-lg shadow-sm hover:shadow-md hover:border-neutral-300 hover:text-neutral-900 transition-all active:scale-[0.98]"
-          >
-            <ArrowLeftRight className="w-4 h-4 text-neutral-400 group-hover:text-neutral-900 transition-colors" />
-            <span>Word para Markdown</span>
-          </Link>
+          <Button variant="outline" className="group flex items-center gap-2 shadow-sm hover:shadow-md transition-all active:scale-[0.98]" asChild>
+            <Link href="/conversor">
+              <ArrowLeftRight className="w-4 h-4 text-neutral-400 group-hover:text-neutral-900 transition-colors" />
+              <span>Word para Markdown</span>
+            </Link>
+          </Button>
         </div>
 
         {/* Main Card */}
@@ -184,9 +181,19 @@ export default function GeradorOctavo() {
 
           {/* Syntax Guide Context Box */}
           <div className="bg-[#fafafa] border border-neutral-200/80 rounded-xl p-5 mb-10">
-            <div className="flex items-center gap-2 mb-4">
-              <BookOpen className="w-4 h-4 text-neutral-500" />
-              <h3 className="text-sm font-semibold text-neutral-700">Guia Rápido de Sintaxe</h3>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-neutral-500" />
+                <h3 className="text-sm font-semibold text-neutral-700">Guia Rápido de Sintaxe</h3>
+              </div>
+              <Link
+                href="/como-usar"
+                className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800 bg-blue-50/50 hover:bg-blue-100/50 px-3 py-1.5 rounded-full transition-colors"
+                title="Aprenda como usar"
+              >
+                <Info className="w-3.5 h-3.5" />
+                Dúvidas? Acesse o tutorial completo
+              </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-[13px] text-neutral-600">
               <div>
@@ -283,14 +290,16 @@ export default function GeradorOctavo() {
                 <div className="flex items-center gap-4">
                   <label className="block text-sm font-semibold text-neutral-800">Conteúdo do Miolo</label>
 
-                  <button
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center gap-1.5 text-xs font-semibold text-neutral-600 bg-white border border-neutral-200 px-2.5 py-1 rounded-md hover:bg-neutral-50 hover:text-neutral-900 transition-colors shadow-sm"
+                    className="flex items-center gap-1.5 h-7 px-2.5 text-xs shadow-sm"
                     title="Carregar arquivo .txt ou .md local"
                   >
                     <Upload className="w-3.5 h-3.5" />
                     Upload .txt
-                  </button>
+                  </Button>
                   <input
                     type="file"
                     accept=".txt,.md"
@@ -321,13 +330,14 @@ export default function GeradorOctavo() {
           </div>
 
           <div className="flex justify-end pt-8 mt-8 border-t border-neutral-100">
-            <button
+            <Button
+              size="lg"
               onClick={() => window.print()}
-              className="flex items-center gap-2 bg-neutral-900 text-white px-8 py-3.5 rounded-xl hover:bg-neutral-800 hover:shadow-lg hover:-translate-y-0.5 transition-all font-semibold active:scale-95"
+              className="flex items-center gap-2 px-8 h-12 rounded-xl hover:shadow-lg hover:-translate-y-0.5 transition-all font-semibold active:scale-95"
             >
               <Printer className="w-4 h-4" />
               Imprimir Livreto
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -342,9 +352,9 @@ export default function GeradorOctavo() {
           <span className="font-semibold text-neutral-700">Aleph Ozuas</span>
         </div>
         <div>
-          <span>para a</span>{' '}
+          <span>para o</span>{' '}
           <a href="https://corrupiola.com.br" target="_blank" rel="noopener noreferrer" className="font-bold text-neutral-900 hover:text-neutral-600 transition-colors decoration-2 underline-offset-4 hover:underline">
-            Corrupiola
+            EstúdioCorrupiola
           </a>
         </div>
       </footer>
