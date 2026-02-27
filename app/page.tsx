@@ -349,9 +349,9 @@ export default function GeradorOctavo() {
           <span className="font-semibold text-neutral-700">Aleph Ozuas</span>
         </div>
         <div>
-          <span>para o</span>{' '}
+          <span>para a</span>{' '}
           <a href="https://corrupiola.com.br" target="_blank" rel="noopener noreferrer" className="font-bold text-neutral-900 hover:text-neutral-600 transition-colors decoration-2 underline-offset-4 hover:underline">
-            EstúdioCorrupiola
+            Corrupiola
           </a>
         </div>
       </footer>

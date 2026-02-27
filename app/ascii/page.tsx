@@ -178,7 +178,21 @@ export default function AsciiGuide() {
                     ))}
                 </div>
 
-            </div >
-        </div >
+                {/* Footer */}
+                <footer className="max-w-4xl mx-auto mt-16 print:hidden flex flex-col items-center justify-center text-sm text-neutral-400 pb-12">
+                    <div className="flex items-center gap-1.5 mb-2">
+                        <span>Desenvolvido por</span>
+                        <span className="font-semibold text-neutral-700">Aleph Ozuas</span>
+                    </div>
+                    <div>
+                        <span>para a</span>{' '}
+                        <a href="https://corrupiola.com.br" target="_blank" rel="noopener noreferrer" className="font-bold text-neutral-900 hover:text-neutral-600 transition-colors decoration-2 underline-offset-4 hover:underline">
+                            Corrupiola
+                        </a>
+                    </div>
+                </footer>
+
+            </div>
+        </div>
     );
 }

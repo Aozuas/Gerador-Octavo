@@ -223,7 +223,7 @@ export default function Conversor() {
       </div>
 
       {/* Footer */}
-      <footer className="max-w-4xl mx-auto flex flex-col items-center justify-center text-sm text-neutral-400 pb-12">
+      <footer className="max-w-4xl mx-auto mt-16 print:hidden flex flex-col items-center justify-center text-sm text-neutral-400 pb-12">
         <div className="flex items-center gap-1.5 mb-2">
           <span>Desenvolvido por</span>
           <span className="font-semibold text-neutral-700">Aleph Ozuas</span>
