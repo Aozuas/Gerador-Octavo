@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm';
 import Link from 'next/link';
 import { ArrowLeftRight, Printer, Sparkles, BookOpen, Upload, Info } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function GeradorOctavo() {
   const [textoLongo, setTextoLongo] = useState('');
@@ -186,14 +187,6 @@ export default function GeradorOctavo() {
                 <BookOpen className="w-4 h-4 text-neutral-500" />
                 <h3 className="text-sm font-semibold text-neutral-700">Guia Rápido de Sintaxe</h3>
               </div>
-              <Link
-                href="/como-usar"
-                className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800 bg-blue-50/50 hover:bg-blue-100/50 px-3 py-1.5 rounded-full transition-colors"
-                title="Aprenda como usar"
-              >
-                <Info className="w-3.5 h-3.5" />
-                Dúvidas? Acesse o tutorial completo
-              </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-[13px] text-neutral-600">
               <div>
@@ -290,16 +283,20 @@ export default function GeradorOctavo() {
                 <div className="flex items-center gap-4">
                   <label className="block text-sm font-semibold text-neutral-800">Conteúdo do Miolo</label>
 
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="flex items-center gap-1.5 h-7 px-2.5 text-xs shadow-sm"
-                    title="Carregar arquivo .txt ou .md local"
-                  >
-                    <Upload className="w-3.5 h-3.5" />
-                    Upload .txt
-                  </Button>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="flex items-center gap-1.5 h-7 px-2.5 text-xs shadow-sm"
+                      >
+                        <Upload className="w-3.5 h-3.5" />
+                        Upload .txt
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent><p>Carregar arquivo .txt ou .md local</p></TooltipContent>
+                  </Tooltip>
                   <input
                     type="file"
                     accept=".txt,.md"

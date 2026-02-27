@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Navbar } from "@/components/Navbar";
 import './globals.css';
 
 const inter = Inter({
@@ -22,7 +24,10 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={inter.variable}>
       <body className="font-sans antialiased text-neutral-900 bg-[#FAFAFA] selection:bg-neutral-200">
-        {children}
+        <TooltipProvider>
+          <Navbar />
+          {children}
+        </TooltipProvider>
         <Analytics />
       </body>
     </html>

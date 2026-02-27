@@ -5,6 +5,7 @@ import TurndownService from 'turndown';
 import Link from 'next/link';
 import { ArrowLeft, Bold, Italic, Heading1, Heading2, List, Copy, CheckCircle2, Upload } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function Conversor() {
   const [markdown, setMarkdown] = useState('');
@@ -83,12 +84,6 @@ export default function Conversor() {
             <h1 className="text-2xl font-bold text-neutral-900 tracking-tight">Conversor de Texto</h1>
             <p className="text-neutral-500 text-sm mt-1.5">Cole textos do Word formatados ou use a barra de ferramentas para criar o seu Markdown limpo.</p>
           </div>
-          <Button variant="outline" className="group flex items-center gap-2 bg-[#FAFAFA] text-neutral-600 hover:text-neutral-900 transition-colors shadow-sm rounded-lg h-auto py-2 px-4 active:scale-[0.98]" asChild>
-            <Link href="/">
-              <ArrowLeft className="w-4 h-4 text-neutral-400 group-hover:text-neutral-700 transition-colors" />
-              Voltar ao Gerador
-            </Link>
-          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -102,16 +97,20 @@ export default function Conversor() {
               </label>
 
               <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="flex items-center gap-1.5 h-6 px-2 text-[11px] shadow-sm"
-                  title="Carregar arquivo .txt local"
-                >
-                  <Upload className="w-3 h-3" />
-                  Upload txt
-                </Button>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="flex items-center gap-1.5 h-6 px-2 text-[11px] shadow-sm"
+                    >
+                      <Upload className="w-3 h-3" />
+                      Upload txt
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent><p>Carregar arquivo .txt local</p></TooltipContent>
+                </Tooltip>
                 <input
                   type="file"
                   accept=".txt"
@@ -124,27 +123,52 @@ export default function Conversor() {
 
             {/* Toolbar */}
             <div className="flex items-center gap-1 mb-0 p-1.5 bg-[#FAFAFA] border border-neutral-200 rounded-t-xl border-b-0 shadow-sm">
-              <Button variant="ghost" size="icon" onClick={() => aplicarFormatacao('bold')} className="w-7 h-7 text-neutral-600 hover:text-neutral-900" title="Negrito">
-                <Bold className="w-4 h-4" />
-              </Button>
-              <Button variant="ghost" size="icon" onClick={() => aplicarFormatacao('italic')} className="w-7 h-7 text-neutral-600 hover:text-neutral-900" title="Itálico">
-                <Italic className="w-4 h-4" />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" onClick={() => aplicarFormatacao('bold')} className="w-7 h-7 text-neutral-600 hover:text-neutral-900">
+                    <Bold className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent><p>Negrito</p></TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" onClick={() => aplicarFormatacao('italic')} className="w-7 h-7 text-neutral-600 hover:text-neutral-900">
+                    <Italic className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent><p>Itálico</p></TooltipContent>
+              </Tooltip>
 
               <div className="w-px h-4 bg-neutral-200 mx-2"></div>
 
-              <Button variant="ghost" size="sm" onClick={() => aplicarFormatacao('formatBlock', 'H1')} className="h-7 px-2 text-neutral-600 hover:text-neutral-900" title="Título 1">
-                <Heading1 className="w-4 h-4" />
-              </Button>
-              <Button variant="ghost" size="sm" onClick={() => aplicarFormatacao('formatBlock', 'H2')} className="h-7 px-2 text-neutral-600 hover:text-neutral-900" title="Título 2">
-                <Heading2 className="w-4 h-4" />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="sm" onClick={() => aplicarFormatacao('formatBlock', 'H1')} className="h-7 px-2 text-neutral-600 hover:text-neutral-900">
+                    <Heading1 className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent><p>Título 1</p></TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="sm" onClick={() => aplicarFormatacao('formatBlock', 'H2')} className="h-7 px-2 text-neutral-600 hover:text-neutral-900">
+                    <Heading2 className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent><p>Título 2</p></TooltipContent>
+              </Tooltip>
 
               <div className="w-px h-4 bg-neutral-200 mx-2"></div>
 
-              <Button variant="ghost" size="icon" onClick={() => aplicarFormatacao('insertUnorderedList')} className="w-7 h-7 text-neutral-600 hover:text-neutral-900" title="Lista de Marcadores">
-                <List className="w-4 h-4" />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" onClick={() => aplicarFormatacao('insertUnorderedList')} className="w-7 h-7 text-neutral-600 hover:text-neutral-900">
+                    <List className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent><p>Lista de Marcadores</p></TooltipContent>
+              </Tooltip>
             </div>
 
             <div

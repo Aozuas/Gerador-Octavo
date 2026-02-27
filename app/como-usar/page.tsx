@@ -8,40 +8,212 @@ import { Button } from "@/components/ui/button";
 export default function ComoUsar() {
     const [copiado, setCopiado] = useState(false);
 
-    const textoTeste = `Sua História Começa Aqui
-========================
-
-Este é um exemplo completo de como formatar seu texto para o Gerador Octavo. O Markdown é uma linguagem simples de usar.
-
+    const textoTeste = `# Lugares  
+![Teste](https://picsum.photos/400/300) 
+# Passageiros
 ---
-
-A Arte da Diagramação
----------------------
-
-A diagramação de um livreto octavo exige **precisão** e *delicadeza*. Veja os elementos essenciais:
-
-1. Margens limpas
-2. Tipografia legível
-3. Páginas fluidas
-
-### Uma nota importante
-
-> "O design não é apenas o que parece e o que se sente. Design é como funciona." 
-> — Steve Jobs
-
----
-
-Tabela de Especificações
-
-| Elemento | Descrição |
-|----------|-----------|
-| Formato | A4 Paisagem (Dividido em 8) |
-| Dobra | Cruzada Oitavada |
-| Páginas | 16 por caderno |
-
+23/02 *Segunda-feira*  
+**◔ TASKS**
 ***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+24/02 *terça-feira*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+25/02 *quarta-feira*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+26/02 *quinta-feira*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+27/02 *sexta-feira*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+28/02 *sábado*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+01/03 *DOMINGO*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+02/03 *Segunda-feira*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+03/03 *terça-feira*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+04/03 *quarta-feira*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+05/03 *quinta-feira*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+06/03 *sexta-feira*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+07/03 *sábado*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+08/03 *DOMINGO*  
+**◔ TASKS**
+***
+***
+**▤ NOTES**
+***
+***  
+**🟇 JOY**
+***
+***
+**◬ MOOD**
+***
+***
+---
+## Checklist das 2 Semanas
+- [X] Não fiz Exercícios
+- [ ] Li algum livro?
+- [ ] Pratiquei desenho?
+- [ ] Entreguei as Encomendas?
 
-Para criar uma linha horizontal como a de cima, basta digitar três asteriscos (***). 
 `;
 
     const copiarTextoTeste = () => {
@@ -53,14 +225,6 @@ Para criar uma linha horizontal como a de cima, basta digitar três asteriscos (
     return (
         <div className="min-h-screen bg-[#FAFAFA] py-16 font-sans text-neutral-900 selection:bg-neutral-200">
             <div className="max-w-3xl mx-auto w-full px-6">
-
-                {/* Navigation */}
-                <Button variant="link" className="inline-flex items-center gap-2 text-sm font-medium text-neutral-500 hover:text-neutral-900 transition-colors mb-10 px-0 h-auto" asChild>
-                    <Link href="/">
-                        <ArrowLeft className="w-4 h-4" />
-                        Voltar ao Gerador
-                    </Link>
-                </Button>
 
                 {/* Header */}
                 <div className="mb-12">
@@ -77,6 +241,58 @@ Para criar uma linha horizontal como a de cima, basta digitar três asteriscos (
 
                 {/* Content Section */}
                 <div className="space-y-12">
+
+                    {/* Section 0: Guia Rápido */}
+                    <section className="bg-white p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-neutral-200/60 border-t-4 border-t-neutral-900">
+                        <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+                            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-neutral-900 text-white text-xs">★</span>
+                            Guia Rápido
+                        </h2>
+
+                        <div className="space-y-4 relative before:absolute before:inset-0 before:ml-4 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-neutral-200 before:to-transparent">
+
+                            <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full border-4 border-white bg-neutral-900 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                                    <span className="text-xs font-bold">1</span>
+                                </div>
+                                <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] p-4 rounded-xl bg-neutral-50 border border-neutral-100 shadow-sm">
+                                    <h3 className="font-bold text-neutral-800 mb-1">Escolha o título</h3>
+                                    <p className="text-sm text-neutral-600">Dê um nome ao seu projeto no campo "Título do Livreto".</p>
+                                </div>
+                            </div>
+
+                            <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full border-4 border-white bg-neutral-900 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                                    <span className="text-xs font-bold">2</span>
+                                </div>
+                                <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] p-4 rounded-xl bg-neutral-50 border border-neutral-100 shadow-sm">
+                                    <h3 className="font-bold text-neutral-800 mb-1">Ajuste a Tipografia</h3>
+                                    <p className="text-sm text-neutral-600">Selecione o tipo, tamanho da fonte e o alinhamento do texto.</p>
+                                </div>
+                            </div>
+
+                            <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full border-4 border-white bg-neutral-900 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                                    <span className="text-xs font-bold">3</span>
+                                </div>
+                                <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] p-4 rounded-xl bg-neutral-50 border border-neutral-100 shadow-sm">
+                                    <h3 className="font-bold text-neutral-800 mb-1">Preencha o Miolo</h3>
+                                    <p className="text-sm text-neutral-600">Digite o conteúdo, faça o upload de um texto TXT/MD ou simplesmente teste colando o texto de exemplo no final desta página.</p>
+                                </div>
+                            </div>
+
+                            <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full border-4 border-white bg-blue-600 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                                    <span className="text-xs font-bold">4</span>
+                                </div>
+                                <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] p-4 rounded-xl bg-blue-50 border border-blue-100 shadow-sm">
+                                    <h3 className="font-bold text-blue-900 mb-1">Imprima seu Livreto</h3>
+                                    <p className="text-sm text-blue-800">Clique na miniatura flutuante ou no botão principal para gerar seu PDF em formato A4 frente e verso.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
 
                     {/* Section 1: O Básico */}
                     <section className="bg-white p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-neutral-200/60">
@@ -158,6 +374,13 @@ Para criar uma linha horizontal como a de cima, basta digitar três asteriscos (
                         <p className="text-neutral-600 mb-6 leading-relaxed">
                             Copie o texto pronto abaixo. Vá até o <strong>Gerador de Octavo</strong>, clique no botão "Conteúdo do Miolo" e cole o texto lá dentro para ver a mágica da diagramação acontecer em tempo real nas folhas 3D.
                         </p>
+                        <p className="text-neutral-600 mb-6 leading-relaxed">
+                            O Markdown também suporta <strong>Caracteres ASCII</strong> (como formas geométricas, setas e símbolos) para você ilustrar suas páginas de forma analógica. Elaboramos um guia rápido com os caracteres mais úteis para você copiar e colar diretamente no Miolo.{' '}
+                            <Link href="/ascii" className="text-blue-600 font-semibold hover:text-blue-800 transition-colors inline-flex items-center gap-1 group">
+                                Ver Tabela ASCII
+                                <ArrowLeftRight className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
+                            </Link>
+                        </p>
 
                         <div className="relative group">
                             <div className="absolute top-3 right-3">
@@ -166,8 +389,8 @@ Para criar uma linha horizontal como a de cima, basta digitar três asteriscos (
                                     variant={copiado ? "outline" : "outline"}
                                     onClick={copiarTextoTeste}
                                     className={`flex items-center gap-1.5 h-7 text-xs transition-all active:scale-95 ${copiado
-                                            ? 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
-                                            : 'bg-white/80 backdrop-blur-sm shadow-sm opacity-0 group-hover:opacity-100 focus:opacity-100'
+                                        ? 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
+                                        : 'bg-white/80 backdrop-blur-sm shadow-sm opacity-0 group-hover:opacity-100 focus:opacity-100'
                                         }`}
                                 >
                                     {copiado ? (
