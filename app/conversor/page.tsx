@@ -102,7 +102,7 @@ export default function Conversor() {
 
       {/* Assinatura e Link no Rodapé */}
       <footer className="max-w-4xl mx-auto w-full text-center text-sm text-gray-500 pb-10">
-        Desenvolvido por <span className="font-semibold">Aleph Ozoas</span> para a <a href="https://corrupiola.com.br" target="_blank" rel="noopener noreferrer" className="font-bold text-black hover:underline transition-all">Corrupiola</a>.
+        Desenvolvido por <span className="font-semibold">Aleph Ozuas</span> para a <a href="https://corrupiola.com.br" target="_blank" rel="noopener noreferrer" className="font-bold text-black hover:underline transition-all">Corrupiola</a>.
       </footer>
     </div>
   );
