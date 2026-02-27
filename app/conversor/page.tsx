@@ -74,7 +74,7 @@ export default function Conversor() {
               ref={editorRef}
               contentEditable
               onInput={handleConverter}
-              className="w-full h-[324px] p-4 border border-gray-300 rounded-b-lg focus:outline-none focus:ring-2 focus:ring-black overflow-y-auto text-sm bg-white leading-relaxed"
+              className="w-full h-81 p-4 border border-gray-300 rounded-b-lg focus:outline-none focus:ring-2 focus:ring-black overflow-y-auto text-sm bg-white leading-relaxed"
             />
           </div>
 
@@ -93,7 +93,7 @@ export default function Conversor() {
             <textarea
               readOnly
               value={markdown}
-              className="w-full h-[374px] p-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 font-mono text-sm resize-none focus:outline-none"
+              className="w-full h-93.5 p-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 font-mono text-sm resize-none focus:outline-none"
               placeholder="O código Markdown aparecerá aqui automaticamente..."
             />
           </div>

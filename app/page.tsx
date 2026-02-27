@@ -73,9 +73,14 @@ export default function GeradorOctavo() {
                         del: ({node, ...props}) => <del className="line-through text-gray-500" {...props} />,
                         hr: ({node, ...props}) => <hr className="my-4 border-t border-gray-300" {...props} />,
                         a: ({node, ...props}) => <a className="text-blue-600 underline" target="_blank" rel="noopener noreferrer" {...props} />,
-                        img: ({node, ...props}) => (
-                          <span className="flex justify-center my-3">
-                            <img className="max-w-full h-auto max-h-40 object-contain grayscale print:grayscale-0" {...props} alt={props.alt || "Imagem do livro"} />
+                        img: ({node, src, alt, title, ...props}) => (
+                          <span className="block w-full text-center my-4 overflow-hidden">
+                            <img 
+                              src={src} 
+                              alt={alt || "Imagem do miolo"} 
+                              title={title}
+                              className="max-w-full h-auto max-h-40 object-contain mx-auto grayscale print:grayscale-0" 
+                            />
                           </span>
                         ),
                         table: ({node, ...props}) => <div className="mb-3 overflow-hidden"><table className="w-full text-[0.9em] border-collapse border border-gray-300" {...props} /></div>,
