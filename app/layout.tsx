@@ -1,6 +1,13 @@
 import type { Metadata } from 'next';
-import { Analytics } from '@vercel/analytics/react'; // <-- Importação do Analytics
+import { Inter } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Gerador de Octavo Editorial',
@@ -13,10 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
-      <body>
+    <html lang="pt-BR" className={inter.variable}>
+      <body className="font-sans antialiased text-neutral-900 bg-[#FAFAFA] selection:bg-neutral-200">
         {children}
-        <Analytics /> {/* <-- O componente rodando invisível aqui */}
+        <Analytics />
       </body>
     </html>
   );
