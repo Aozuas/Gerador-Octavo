@@ -11,10 +11,8 @@ export default function Conversor() {
 
   const handleConverter = () => {
     if (editorRef.current) {
-      // Pega o HTML invisível que o navegador gerou quando você colou o texto rico
       const html = editorRef.current.innerHTML;
       
-      // Configura o motor para gerar um Markdown limpo
       const turndownService = new TurndownService({ 
         headingStyle: 'atx',
         hr: '***',
@@ -25,6 +23,13 @@ export default function Conversor() {
       setMarkdown(resultado);
       setCopiado(false);
     }
+  };
+
+  // Função mágica que aplica a formatação nativa do navegador
+  const aplicarFormatacao = (comando: string, valor?: string) => {
+    document.execCommand(comando, false, valor);
+    editorRef.current?.focus(); // Mantém o cursor piscando no editor
+    handleConverter(); // Força a atualização do Markdown instantaneamente
   };
 
   const copiarParaAreaDeTransferencia = () => {
@@ -40,7 +45,7 @@ export default function Conversor() {
         <div className="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Conversor de Texto</h1>
-            <p className="text-gray-600 text-sm mt-1">Cole textos do Word ou Google Docs para transformar em Markdown puro.</p>
+            <p className="text-gray-600 text-sm mt-1">Cole textos formatados ou use a barra de ferramentas para criar o seu Markdown.</p>
           </div>
           <Link 
             href="/" 
@@ -51,14 +56,28 @@ export default function Conversor() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Lado Esquerdo: Onde o usuário cola o texto do Word */}
+          {/* Lado Esquerdo: Editor com Barra de Ferramentas */}
           <div className="flex flex-col">
-            <label className="block text-sm font-bold text-gray-700 mb-2">1. Cole o texto formatado aqui:</label>
-<div 
+            <label className="block text-sm font-bold text-gray-700 mb-2">1. Edite ou cole o texto aqui:</label>
+            
+            {/* Barra de Ferramentas */}
+            <div className="flex flex-wrap gap-2 mb-0 p-2 bg-gray-50 border border-gray-300 rounded-t-lg border-b-0">
+              <button onClick={() => aplicarFormatacao('bold')} className="px-3 py-1 font-bold bg-white border border-gray-200 rounded hover:bg-gray-100 shadow-sm transition-colors" title="Negrito">B</button>
+              <button onClick={() => aplicarFormatacao('italic')} className="px-3 py-1 italic bg-white border border-gray-200 rounded hover:bg-gray-100 shadow-sm transition-colors" title="Itálico">I</button>
+              <div className="w-px bg-gray-300 mx-1"></div>
+              <button onClick={() => aplicarFormatacao('formatBlock', 'H1')} className="px-3 py-1 font-bold text-sm bg-white border border-gray-200 rounded hover:bg-gray-100 shadow-sm transition-colors" title="Título 1">H1</button>
+              <button onClick={() => aplicarFormatacao('formatBlock', 'H2')} className="px-3 py-1 font-bold text-sm bg-white border border-gray-200 rounded hover:bg-gray-100 shadow-sm transition-colors" title="Título 2">H2</button>
+              <div className="w-px bg-gray-300 mx-1"></div>
+              <button onClick={() => aplicarFormatacao('insertUnorderedList')} className="px-3 py-1 text-sm bg-white border border-gray-200 rounded hover:bg-gray-100 shadow-sm transition-colors flex items-center gap-1" title="Lista">
+                <span>≡</span> Lista
+              </button>
+            </div>
+
+            <div 
               ref={editorRef}
               contentEditable
               onInput={handleConverter}
-              className="w-full h-96 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black overflow-y-auto text-sm bg-white"
+              className="w-full h-[324px] p-4 border border-gray-300 rounded-b-lg focus:outline-none focus:ring-2 focus:ring-black overflow-y-auto text-sm bg-white leading-relaxed"
             />
           </div>
 
@@ -69,16 +88,17 @@ export default function Conversor() {
               {markdown && (
                 <button 
                   onClick={copiarParaAreaDeTransferencia}
-                  className="text-xs font-bold px-3 py-1 rounded bg-black text-white hover:bg-gray-800 transition-colors"
+                  className="text-xs font-bold px-3 py-1 rounded bg-black text-white hover:bg-gray-800 transition-colors shadow-sm"
                 >
                   {copiado ? 'Copiado!' : 'Copiar Texto'}
                 </button>
               )}
             </div>
+            {/* Ajustei a altura para parear perfeitamente com a barra de ferramentas + editor */}
             <textarea
               readOnly
               value={markdown}
-              className="w-full h-96 p-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 font-mono text-sm resize-none focus:outline-none"
+              className="w-full h-[374px] p-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-700 font-mono text-sm resize-none focus:outline-none"
               placeholder="O código Markdown aparecerá aqui automaticamente..."
             />
           </div>
