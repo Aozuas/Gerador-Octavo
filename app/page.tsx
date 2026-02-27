@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import Link from 'next/link';
 
 export default function GeradorOctavo() {
   const [textoLongo, setTextoLongo] = useState('');
@@ -145,6 +146,17 @@ export default function GeradorOctavo() {
               <li><code className="bg-white px-1 py-0.5 rounded font-mono">| Tabela |</code></li>
             </ul>
           </div>
+        </div>
+
+        {/* Link para o Conversor */}
+        <div className="mb-8 flex justify-end">
+          <Link 
+            href="/conversor" 
+            className="text-sm font-medium text-gray-600 hover:text-black transition-colors flex items-center gap-2 border border-gray-200 bg-gray-50 px-4 py-2 rounded shadow-sm hover:shadow"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            Converter arquivo do Word para Markdown
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 gap-6 mb-6">
