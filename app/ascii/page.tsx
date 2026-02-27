@@ -154,11 +154,11 @@ export default function AsciiGuide() {
                                                 </span>
                                             )}
 
-                                            <div className={`flex flex-col items-center gap-0.5 ${isCopied ? 'text-green-700' : 'text-neutral-500 group-hover:text-neutral-800'}`}>
-                                                <span className="text-[10px] uppercase tracking-wider font-semibold">
+                                            <div className={`flex flex-col items-center gap-0.5 mt-1 ${isCopied ? 'text-green-700' : 'text-neutral-600 group-hover:text-neutral-900'}`}>
+                                                <span className="text-[11px] uppercase tracking-wider font-bold">
                                                     {isCopied ? 'Copiado!' : item.name}
                                                 </span>
-                                                <span className={`text-[9px] font-mono font-medium ${isCopied ? 'opacity-80' : 'text-neutral-400 group-hover:text-neutral-600'}`}>
+                                                <span className={`text-[10px] font-mono font-semibold ${isCopied ? 'opacity-80' : 'text-neutral-500 group-hover:text-neutral-700'}`}>
                                                     Alt + {item.char.codePointAt(0)}
                                                 </span>
                                             </div>
