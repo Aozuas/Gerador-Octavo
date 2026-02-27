@@ -109,14 +109,6 @@ export default function AsciiGuide() {
         <div className="min-h-screen bg-[#FAFAFA] py-16 font-sans text-neutral-900 selection:bg-neutral-200">
             <div className="max-w-4xl mx-auto w-full px-6">
 
-                {/* Navigation */}
-                <Button variant="link" className="inline-flex items-center gap-2 text-sm font-medium text-neutral-500 hover:text-neutral-900 transition-colors mb-10 px-0 h-auto" asChild>
-                    <Link href="/como-usar">
-                        <ArrowLeft className="w-4 h-4" />
-                        Voltar para "Como Usar"
-                    </Link>
-                </Button>
-
                 {/* Header */}
                 <div className="mb-12">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-200 text-xs font-semibold text-neutral-600 mb-4">
