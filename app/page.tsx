@@ -12,9 +12,10 @@ export default function GeradorOctavo() {
   const [tamanhoFonte, setTamanhoFonte] = useState(11);
   const [familiaFonte, setFamiliaFonte] = useState('font-serif');
   const [alinhamento, setAlinhamento] = useState('text-justify');
-
-  const paginasFrente = [9, 8, 1, 16, 12, 5, 4, 13];
-  const paginasVerso = [15, 2, 7, 10, 14, 3, 6, 11];
+  
+  const paginasFrente = [5, 12, 9, 8, 4, 13, 16, 1];
+  const paginasVerso = [7, 10, 11, 6, 2, 15, 14, 3];
+  
 
   const fatiarTextoManual = (texto: string) => {
     const pedacosRaw = texto.split('---').map(p => p.trim());
