@@ -25,11 +25,10 @@ export default function Conversor() {
     }
   };
 
-  // Função mágica que aplica a formatação nativa do navegador
   const aplicarFormatacao = (comando: string, valor?: string) => {
     document.execCommand(comando, false, valor);
-    editorRef.current?.focus(); // Mantém o cursor piscando no editor
-    handleConverter(); // Força a atualização do Markdown instantaneamente
+    editorRef.current?.focus(); 
+    handleConverter(); 
   };
 
   const copiarParaAreaDeTransferencia = () => {
@@ -39,8 +38,8 @@ export default function Conversor() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-100 py-10 font-sans">
-      <div className="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+    <div className="min-h-screen bg-neutral-100 py-10 font-sans flex flex-col justify-between">
+      <div className="max-w-4xl mx-auto w-full bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8">
         
         <div className="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
           <div>
@@ -56,11 +55,9 @@ export default function Conversor() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Lado Esquerdo: Editor com Barra de Ferramentas */}
           <div className="flex flex-col">
             <label className="block text-sm font-bold text-gray-700 mb-2">1. Edite ou cole o texto aqui:</label>
             
-            {/* Barra de Ferramentas */}
             <div className="flex flex-wrap gap-2 mb-0 p-2 bg-gray-50 border border-gray-300 rounded-t-lg border-b-0">
               <button onClick={() => aplicarFormatacao('bold')} className="px-3 py-1 font-bold bg-white border border-gray-200 rounded hover:bg-gray-100 shadow-sm transition-colors" title="Negrito">B</button>
               <button onClick={() => aplicarFormatacao('italic')} className="px-3 py-1 italic bg-white border border-gray-200 rounded hover:bg-gray-100 shadow-sm transition-colors" title="Itálico">I</button>
@@ -81,7 +78,6 @@ export default function Conversor() {
             />
           </div>
 
-          {/* Lado Direito: Onde sai o Markdown pronto */}
           <div className="flex flex-col relative">
             <div className="flex justify-between items-end mb-2">
               <label className="block text-sm font-bold text-gray-700">2. Resultado em Markdown:</label>
@@ -94,7 +90,6 @@ export default function Conversor() {
                 </button>
               )}
             </div>
-            {/* Ajustei a altura para parear perfeitamente com a barra de ferramentas + editor */}
             <textarea
               readOnly
               value={markdown}
@@ -103,8 +98,12 @@ export default function Conversor() {
             />
           </div>
         </div>
-
       </div>
+
+      {/* Assinatura e Link no Rodapé */}
+      <footer className="max-w-4xl mx-auto w-full text-center text-sm text-gray-500 pb-10">
+        Desenvolvido por <span className="font-semibold">Aleph Ozoas</span> para a <a href="https://corrupiola.com.br" target="_blank" rel="noopener noreferrer" className="font-bold text-black hover:underline transition-all">Corrupiola</a>.
+      </footer>
     </div>
   );
 }
