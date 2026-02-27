@@ -8,7 +8,7 @@ export function Navbar() {
     const pathname = usePathname();
 
     const navItems = [
-        { name: 'Gerador', href: '/', icon: <BookOpen className="w-4 h-4" /> },
+        { name: 'Gerador Octavo', href: '/', icon: <BookOpen className="w-4 h-4" /> },
         { name: 'Como Usar', href: '/como-usar', icon: <AlertCircle className="w-4 h-4" /> },
         { name: 'Conversor', href: '/conversor', icon: <ArrowLeftRight className="w-4 h-4" /> },
         { name: 'ASCII', href: '/ascii', icon: <Type className="w-4 h-4" /> },
@@ -17,10 +17,9 @@ export function Navbar() {
     return (
         <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-neutral-200 print:hidden">
             <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
-                <Link href="/" className="font-bold text-neutral-900 tracking-tight flex items-center gap-2 hover:opacity-80 transition-opacity">
-                    <BookOpen className="w-5 h-5 text-neutral-800" />
-                    <span className="hidden sm:inline-block">Gerador Octavo</span>
-                </Link>
+                <a href="https://corrupiola.com.br" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center">
+                    <img src="/corrupiola-logo.png" alt="Corrupiola" className="h-[18px] w-auto object-contain dark:invert" />
+                </a>
                 <div className="flex items-center gap-1 sm:gap-2">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
