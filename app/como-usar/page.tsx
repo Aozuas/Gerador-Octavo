@@ -276,6 +276,22 @@ export default function ComoUsar() {
                                     <span className="text-xs font-bold">3</span>
                                 </div>
                                 <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] p-4 rounded-xl bg-neutral-50 border border-neutral-100 shadow-sm">
+                                    <h3 className="font-bold text-neutral-800 mb-1">Formato e Tamanho</h3>
+                                    <p className="text-sm text-neutral-600 mb-2">Selecione o modelo do livreto e o tamanho do papel.</p>
+                                    <ul className="text-xs text-neutral-600 list-disc pl-4 space-y-1 mb-2">
+                                        <li><strong>Octavo:</strong> Padrão, com 16 páginas</li>
+                                        <li><strong>Quarto:</strong> Duas dobras simples, com 8 páginas</li>
+                                        <li><strong>Fanzine:</strong> 8 páginas, impresso apenas de um lado permitindo no verso imprimir um belo pôster!</li>
+                                    </ul>
+                                    <p className="text-xs text-neutral-500 italic">Após selecionar o modelo, escolha entre o tamanho base A4 ou o grande A3.</p>
+                                </div>
+                            </div>
+
+                            <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                                <div className="flex items-center justify-center w-8 h-8 rounded-full border-4 border-white bg-neutral-900 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+                                    <span className="text-xs font-bold">4</span>
+                                </div>
+                                <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] p-4 rounded-xl bg-neutral-50 border border-neutral-100 shadow-sm">
                                     <h3 className="font-bold text-neutral-800 mb-1">Preencha o Miolo</h3>
                                     <p className="text-sm text-neutral-600">Digite o conteúdo, faça o upload de um texto TXT/MD ou simplesmente teste colando o texto de exemplo no final desta página.</p>
                                 </div>
@@ -283,11 +299,11 @@ export default function ComoUsar() {
 
                             <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
                                 <div className="flex items-center justify-center w-8 h-8 rounded-full border-4 border-white bg-blue-600 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
-                                    <span className="text-xs font-bold">4</span>
+                                    <span className="text-xs font-bold">5</span>
                                 </div>
                                 <div className="w-[calc(100%-3rem)] md:w-[calc(50%-2rem)] p-4 rounded-xl bg-blue-50 border border-blue-100 shadow-sm">
                                     <h3 className="font-bold text-blue-900 mb-1">Imprima seu Livreto</h3>
-                                    <p className="text-sm text-blue-800">Clique na miniatura flutuante ou no botão principal para gerar seu PDF em formato A4 frente e verso.</p>
+                                    <p className="text-sm text-blue-800">Clique no botão principal para gerar seu PDF em formato A4 frente e verso.</p>
                                 </div>
                             </div>
 
