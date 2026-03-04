@@ -17,9 +17,9 @@ export function Navbar() {
     return (
         <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-neutral-200 print:hidden">
             <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
-                <a href="https://corrupiola.com.br" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity flex items-center">
+                <Link href="/breve-historia" className="hover:opacity-80 transition-opacity flex items-center">
                     <img src="/corrupiola-logo.png" alt="Corrupiola" className="h-[18px] w-auto object-contain dark:invert" />
-                </a>
+                </Link>
                 <div className="flex items-center gap-1 sm:gap-2">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
