@@ -16,6 +16,7 @@ export default function GeradorOctavo() {
   const [tamanhoFonte, setTamanhoFonte] = useState(11);
   const [familiaFonte, setFamiliaFonte] = useState('font-serif');
   const [alinhamento, setAlinhamento] = useState('text-justify');
+  const [formatoPapel, setFormatoPapel] = useState('A4');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -26,9 +27,11 @@ export default function GeradorOctavo() {
   useEffect(() => {
     const savedText = localStorage.getItem('octavo_texto');
     const savedTitle = localStorage.getItem('octavo_titulo');
+    const savedFormato = localStorage.getItem('octavo_formato');
 
     if (savedText) setTextoLongo(savedText);
     if (savedTitle) setTituloLivro(savedTitle);
+    if (savedFormato) setFormatoPapel(savedFormato);
 
     setIsLoaded(true);
   }, []);
@@ -38,8 +41,9 @@ export default function GeradorOctavo() {
     if (isLoaded) {
       localStorage.setItem('octavo_texto', textoLongo);
       localStorage.setItem('octavo_titulo', tituloLivro);
+      localStorage.setItem('octavo_formato', formatoPapel);
     }
-  }, [textoLongo, tituloLivro, isLoaded]);
+  }, [textoLongo, tituloLivro, formatoPapel, isLoaded]);
 
   // Handler de Upload de Arquivo
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,89 +80,100 @@ export default function GeradorOctavo() {
 
   const { conteudo, totalPreenchidas } = fatiarTextoManual(textoLongo);
 
-  const RenderSheet = ({ paginas, titulo, isLast = false }: { paginas: number[], titulo: string, isLast?: boolean }) => (
-    <div className={`w-[297mm] h-[210mm] bg-white border border-neutral-200 mx-auto mb-16 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-sm print:shadow-none print:mb-0 print:border-none print:rounded-none flex flex-col relative overflow-hidden transition-all duration-300 ${isLast ? '' : 'print:break-after-page'}`}>
-      <div className="absolute top-3 left-3 text-[10px] font-medium tracking-widest text-neutral-400 print:hidden uppercase">{titulo}</div>
-      <div className="grid grid-cols-4 grid-rows-2 w-full h-full">
-        {paginas.map((num, i) => {
-          const isUpsideDown = i < 4;
-          const textoDaPagina = conteudo[num - 1];
+  const RenderSheet = ({ paginas, titulo, isLast = false }: { paginas: number[], titulo: string, isLast?: boolean }) => {
+    const sheetClass = formatoPapel === 'A3' ? 'w-[420mm] h-[297mm]' : 'w-[297mm] h-[210mm]';
+    return (
+      <div className={`${sheetClass} bg-white border border-neutral-200 mx-auto mb-16 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-sm print:shadow-none print:mb-0 print:border-none print:rounded-none flex flex-col relative overflow-hidden transition-all duration-300 ${isLast ? '' : 'print:break-after-page'}`}>
+        <div className="absolute top-3 left-3 text-[10px] font-medium tracking-widest text-neutral-400 print:hidden uppercase">{titulo}</div>
+        <div className="grid grid-cols-4 grid-rows-2 w-full h-full">
+          {paginas.map((num, i) => {
+            const isUpsideDown = i < 4;
+            const textoDaPagina = conteudo[num - 1];
 
-          return (
-            <div
-              key={num}
-              className={`border border-dashed border-neutral-200 flex flex-col relative overflow-hidden
+            return (
+              <div
+                key={num}
+                className={`border border-dashed border-neutral-200 flex flex-col relative overflow-hidden
                 ${isUpsideDown ? 'rotate-180' : ''}
               `}
-            >
-              <div className="flex-1 flex flex-col p-5 h-full overflow-hidden">
+              >
+                <div className="flex-1 flex flex-col p-5 h-full overflow-hidden">
 
-                <div className="text-[8px] text-neutral-400 text-center uppercase tracking-widest mb-3 border-b border-neutral-100 pb-1 font-sans shrink-0 transition-colors">
-                  {tituloLivro || 'Título do Livreto'}
+                  <div className="text-[8px] text-neutral-400 text-center uppercase tracking-widest mb-3 border-b border-neutral-100 pb-1 font-sans shrink-0 transition-colors">
+                    {tituloLivro || 'Título do Livreto'}
+                  </div>
+
+                  <div
+                    className={`flex-1 overflow-y-auto print:overflow-hidden leading-relaxed text-neutral-800 ${familiaFonte} ${alinhamento} scrollbar-thin scrollbar-thumb-neutral-200`}
+                    style={{ fontSize: `${tamanhoFonte}px` }}
+                  >
+                    {textoDaPagina ? (
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          h1: ({ node, ...props }) => <h1 className="text-xl font-bold mb-3 mt-2 leading-tight tracking-tight" {...props} />,
+                          h2: ({ node, ...props }) => <h2 className="text-lg font-bold mb-2 mt-2 leading-tight tracking-tight" {...props} />,
+                          h3: ({ node, ...props }) => <h3 className="text-base font-bold mb-2 mt-2 leading-tight tracking-tight" {...props} />,
+                          p: ({ node, ...props }) => <p className="mb-3" {...props} />,
+                          ul: ({ node, ...props }) => <ul className="list-disc pl-4 mb-3 marker:text-neutral-400" {...props} />,
+                          ol: ({ node, ...props }) => <ol className="list-decimal pl-4 mb-3 marker:text-neutral-400" {...props} />,
+                          blockquote: ({ node, ...props }) => <blockquote className="border-l-2 border-neutral-800 pl-3 italic text-neutral-600 mb-3" {...props} />,
+                          strong: ({ node, ...props }) => <strong className="font-semibold text-neutral-900" {...props} />,
+                          em: ({ node, ...props }) => <em className="italic" {...props} />,
+                          del: ({ node, ...props }) => <del className="line-through text-neutral-400" {...props} />,
+                          hr: ({ node, ...props }) => <hr className="my-4 border-t border-neutral-200" {...props} />,
+                          a: ({ node, ...props }) => <a className="text-neutral-900 underline decoration-neutral-300 hover:decoration-neutral-900 transition-all underline-offset-2" target="_blank" rel="noopener noreferrer" {...props} />,
+                          img: ({ node, ...props }) => (
+                            <span className="flex justify-center my-3">
+                              <img className="max-w-full h-auto max-h-40 object-contain grayscale print:grayscale-0 rounded" {...props} alt={props.alt || "Imagem do livro"} />
+                            </span>
+                          ),
+                          table: ({ node, ...props }) => <div className="mb-3 overflow-hidden rounded border border-neutral-200"><table className="w-full text-[0.9em] border-collapse bg-white" {...props} /></div>,
+                          th: ({ node, ...props }) => <th className="border-b border-neutral-200 bg-neutral-50/50 px-3 py-2 font-semibold text-neutral-900 text-left" {...props} />,
+                          td: ({ node, ...props }) => <td className="border-b border-neutral-100 px-3 py-2" {...props} />,
+                          code: ({ node, className, children, ...props }) => {
+                            const match = /language-(\w+)/.exec(className || '')
+                            const isInline = !match && !String(children).includes('\n')
+                            return isInline ? (
+                              <code className="bg-neutral-100 text-neutral-800 px-1.5 py-0.5 rounded-md font-mono text-[0.85em] border border-neutral-200/50" {...props}>{children}</code>
+                            ) : (
+                              <pre className="bg-[#fafafa] p-3 rounded-lg overflow-x-auto mb-3 font-mono text-[0.85em] border border-neutral-200 text-neutral-800">
+                                <code className={className} {...props}>{children}</code>
+                              </pre>
+                            )
+                          }
+                        }}
+                      >
+                        {textoDaPagina}
+                      </ReactMarkdown>
+                    ) : (
+                      <span className="text-neutral-300 italic flex items-center justify-center mt-10 font-sans text-xs select-none">Página em branco</span>
+                    )}
+                  </div>
+
+                  <div className="text-[10px] text-center font-bold text-neutral-400 mt-3 border-t border-neutral-100 pt-1 font-sans shrink-0">
+                    {num}
+                  </div>
+
                 </div>
-
-                <div
-                  className={`flex-1 overflow-y-auto print:overflow-hidden leading-relaxed text-neutral-800 ${familiaFonte} ${alinhamento} scrollbar-thin scrollbar-thumb-neutral-200`}
-                  style={{ fontSize: `${tamanhoFonte}px` }}
-                >
-                  {textoDaPagina ? (
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      components={{
-                        h1: ({ node, ...props }) => <h1 className="text-xl font-bold mb-3 mt-2 leading-tight tracking-tight" {...props} />,
-                        h2: ({ node, ...props }) => <h2 className="text-lg font-bold mb-2 mt-2 leading-tight tracking-tight" {...props} />,
-                        h3: ({ node, ...props }) => <h3 className="text-base font-bold mb-2 mt-2 leading-tight tracking-tight" {...props} />,
-                        p: ({ node, ...props }) => <p className="mb-3" {...props} />,
-                        ul: ({ node, ...props }) => <ul className="list-disc pl-4 mb-3 marker:text-neutral-400" {...props} />,
-                        ol: ({ node, ...props }) => <ol className="list-decimal pl-4 mb-3 marker:text-neutral-400" {...props} />,
-                        blockquote: ({ node, ...props }) => <blockquote className="border-l-2 border-neutral-800 pl-3 italic text-neutral-600 mb-3" {...props} />,
-                        strong: ({ node, ...props }) => <strong className="font-semibold text-neutral-900" {...props} />,
-                        em: ({ node, ...props }) => <em className="italic" {...props} />,
-                        del: ({ node, ...props }) => <del className="line-through text-neutral-400" {...props} />,
-                        hr: ({ node, ...props }) => <hr className="my-4 border-t border-neutral-200" {...props} />,
-                        a: ({ node, ...props }) => <a className="text-neutral-900 underline decoration-neutral-300 hover:decoration-neutral-900 transition-all underline-offset-2" target="_blank" rel="noopener noreferrer" {...props} />,
-                        img: ({ node, ...props }) => (
-                          <span className="flex justify-center my-3">
-                            <img className="max-w-full h-auto max-h-40 object-contain grayscale print:grayscale-0 rounded" {...props} alt={props.alt || "Imagem do livro"} />
-                          </span>
-                        ),
-                        table: ({ node, ...props }) => <div className="mb-3 overflow-hidden rounded border border-neutral-200"><table className="w-full text-[0.9em] border-collapse bg-white" {...props} /></div>,
-                        th: ({ node, ...props }) => <th className="border-b border-neutral-200 bg-neutral-50/50 px-3 py-2 font-semibold text-neutral-900 text-left" {...props} />,
-                        td: ({ node, ...props }) => <td className="border-b border-neutral-100 px-3 py-2" {...props} />,
-                        code: ({ node, className, children, ...props }) => {
-                          const match = /language-(\w+)/.exec(className || '')
-                          const isInline = !match && !String(children).includes('\n')
-                          return isInline ? (
-                            <code className="bg-neutral-100 text-neutral-800 px-1.5 py-0.5 rounded-md font-mono text-[0.85em] border border-neutral-200/50" {...props}>{children}</code>
-                          ) : (
-                            <pre className="bg-[#fafafa] p-3 rounded-lg overflow-x-auto mb-3 font-mono text-[0.85em] border border-neutral-200 text-neutral-800">
-                              <code className={className} {...props}>{children}</code>
-                            </pre>
-                          )
-                        }
-                      }}
-                    >
-                      {textoDaPagina}
-                    </ReactMarkdown>
-                  ) : (
-                    <span className="text-neutral-300 italic flex items-center justify-center mt-10 font-sans text-xs select-none">Página em branco</span>
-                  )}
-                </div>
-
-                <div className="text-[10px] text-center font-bold text-neutral-400 mt-3 border-t border-neutral-100 pt-1 font-sans shrink-0">
-                  {num}
-                </div>
-
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#FAFAFA] py-16 print:bg-white print:py-0 font-sans text-neutral-900 selection:bg-neutral-200">
+      <style>{`
+        @media print {
+          @page {
+            size: ${formatoPapel} landscape;
+            margin: 0;
+          }
+        }
+      `}</style>
 
       <div className="max-w-4xl mx-auto mb-16 print:hidden">
 
@@ -273,6 +288,20 @@ export default function GeradorOctavo() {
                   <option value="text-justify">Justificado</option>
                   <option value="text-left">À Esquerda</option>
                   <option value="text-center">Centralizado</option>
+                </select>
+              </div>
+
+              <div className="hidden md:block w-px bg-neutral-200/80 my-2"></div>
+
+              <div className="flex-1 p-2.5 rounded-lg hover:bg-neutral-100/50 transition-colors">
+                <label className="block text-[11px] font-bold text-neutral-500 uppercase tracking-widest mb-2 px-1">Formato</label>
+                <select
+                  value={formatoPapel}
+                  onChange={(e) => setFormatoPapel(e.target.value)}
+                  className="w-full bg-transparent border-0 p-1 text-sm font-medium focus:ring-0 cursor-pointer text-neutral-800"
+                >
+                  <option value="A4">A4</option>
+                  <option value="A3">A3</option>
                 </select>
               </div>
             </div>

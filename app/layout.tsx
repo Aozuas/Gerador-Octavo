@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
+import { VercelToolbar } from '@vercel/toolbar/next';
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Navbar } from "@/components/Navbar";
 import './globals.css';
@@ -29,6 +30,7 @@ export default function RootLayout({
           {children}
         </TooltipProvider>
         <Analytics />
+        {process.env.NODE_ENV === 'development' && <VercelToolbar />}
       </body>
     </html>
   );
