@@ -17,21 +17,62 @@ export default function GeradorOctavo() {
   const [familiaFonte, setFamiliaFonte] = useState('font-serif');
   const [alinhamento, setAlinhamento] = useState('text-justify');
   const [formatoPapel, setFormatoPapel] = useState('A4');
+  const [modeloDobradura, setModeloDobradura] = useState('Octavo');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const paginasFrente = [5, 12, 9, 8, 4, 13, 16, 1];
-  const paginasVerso = [7, 10, 11, 6, 2, 15, 14, 3];
+  // Model Configurations
+  const MODEL_CONFIGS: Record<string, {
+    maxPages: number;
+    orientation: 'landscape' | 'portrait';
+    gridCols: 'grid-cols-4' | 'grid-cols-2';
+    upsideDownCount: number;
+    hasVerso: boolean;
+    frente: number[];
+    verso: number[];
+  }> = {
+    'Octavo': {
+      maxPages: 16,
+      orientation: 'landscape',
+      gridCols: 'grid-cols-4',
+      upsideDownCount: 4,
+      hasVerso: true,
+      frente: [5, 12, 9, 8, 4, 13, 16, 1],
+      verso: [7, 10, 11, 6, 2, 15, 14, 3]
+    },
+    'Quarto': {
+      maxPages: 8,
+      orientation: 'portrait',
+      gridCols: 'grid-cols-2',
+      upsideDownCount: 2,
+      hasVerso: true,
+      frente: [5, 4, 8, 1],
+      verso: [3, 6, 2, 7]
+    },
+    'Fanzine': {
+      maxPages: 8,
+      orientation: 'landscape',
+      gridCols: 'grid-cols-4',
+      upsideDownCount: 4,
+      hasVerso: false,
+      frente: [5, 4, 3, 2, 6, 7, 8, 1],
+      verso: [] // Não usa verso
+    }
+  };
+
+  const currentConfig = MODEL_CONFIGS[modeloDobradura] || MODEL_CONFIGS['Octavo'];
 
   // Carregar do LocalStorage
   useEffect(() => {
     const savedText = localStorage.getItem('octavo_texto');
     const savedTitle = localStorage.getItem('octavo_titulo');
     const savedFormato = localStorage.getItem('octavo_formato');
+    const savedModelo = localStorage.getItem('octavo_modelo');
 
     if (savedText) setTextoLongo(savedText);
     if (savedTitle) setTituloLivro(savedTitle);
     if (savedFormato) setFormatoPapel(savedFormato);
+    if (savedModelo && MODEL_CONFIGS[savedModelo]) setModeloDobradura(savedModelo);
 
     setIsLoaded(true);
   }, []);
@@ -42,8 +83,9 @@ export default function GeradorOctavo() {
       localStorage.setItem('octavo_texto', textoLongo);
       localStorage.setItem('octavo_titulo', tituloLivro);
       localStorage.setItem('octavo_formato', formatoPapel);
+      localStorage.setItem('octavo_modelo', modeloDobradura);
     }
-  }, [textoLongo, tituloLivro, formatoPapel, isLoaded]);
+  }, [textoLongo, tituloLivro, formatoPapel, modeloDobradura, isLoaded]);
 
   // Handler de Upload de Arquivo
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,10 +108,10 @@ export default function GeradorOctavo() {
     }
   };
 
-  const fatiarTextoManual = (texto: string) => {
+  const fatiarTextoManual = (texto: string, max: number) => {
     const pedacosRaw = texto.split('---').map(p => p.trim());
-    const pedacos = Array(16).fill('');
-    for (let i = 0; i < 16; i++) {
+    const pedacos = Array(max).fill('');
+    for (let i = 0; i < max; i++) {
       if (pedacosRaw[i]) pedacos[i] = pedacosRaw[i];
     }
     return {
@@ -78,16 +120,26 @@ export default function GeradorOctavo() {
     };
   };
 
-  const { conteudo, totalPreenchidas } = fatiarTextoManual(textoLongo);
+  const { conteudo, totalPreenchidas } = fatiarTextoManual(textoLongo, currentConfig.maxPages);
 
   const RenderSheet = ({ paginas, titulo, isLast = false }: { paginas: number[], titulo: string, isLast?: boolean }) => {
-    const sheetClass = formatoPapel === 'A3' ? 'w-[420mm] h-[297mm]' : 'w-[297mm] h-[210mm]';
+    // Calculando a dimensão do papel levando em conta a orientação do modelo
+    const wConfig = formatoPapel === 'A3' ? 420 : 297;
+    const hConfig = formatoPapel === 'A3' ? 297 : 210;
+
+    // Se for portrait inverte width e height real visual (A4 = 210x297, A3 = 297x420)
+    const isPortrait = currentConfig.orientation === 'portrait';
+    const sheetWidth = isPortrait ? hConfig : wConfig;
+    const sheetHeight = isPortrait ? wConfig : hConfig;
+
+    const sheetClass = `w-[${sheetWidth}mm] h-[${sheetHeight}mm]`;
+
     return (
-      <div className={`${sheetClass} bg-white border border-neutral-200 mx-auto mb-16 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-sm print:shadow-none print:mb-0 print:border-none print:rounded-none flex flex-col relative overflow-hidden transition-all duration-300 ${isLast ? '' : 'print:break-after-page'}`}>
+      <div className={`${sheetClass} bg-white border border-neutral-200 mx-auto mb-16 shadow-[0_8px_30px_rgba(0,0,0,0.04)] rounded-sm print:shadow-none print:mb-0 print:border-none print:rounded-none flex flex-col relative overflow-hidden transition-all duration-300 ${isLast ? '' : 'print:break-after-page'}`} style={{ width: `${sheetWidth}mm`, height: `${sheetHeight}mm` }}>
         <div className="absolute top-3 left-3 text-[10px] font-medium tracking-widest text-neutral-400 print:hidden uppercase">{titulo}</div>
-        <div className="grid grid-cols-4 grid-rows-2 w-full h-full">
+        <div className={`grid ${currentConfig.gridCols} grid-rows-2 w-full h-full`}>
           {paginas.map((num, i) => {
-            const isUpsideDown = i < 4;
+            const isUpsideDown = i < currentConfig.upsideDownCount;
             const textoDaPagina = conteudo[num - 1];
 
             return (
@@ -169,7 +221,7 @@ export default function GeradorOctavo() {
       <style>{`
         @media print {
           @page {
-            size: ${formatoPapel} landscape;
+            size: ${formatoPapel} ${currentConfig.orientation};
             margin: 0;
           }
         }
@@ -291,6 +343,19 @@ export default function GeradorOctavo() {
                 </select>
               </div>
 
+              <div className="flex-1 p-2.5 rounded-lg hover:bg-neutral-100/50 transition-colors">
+                <label className="block text-[11px] font-bold text-neutral-500 uppercase tracking-widest mb-2 px-1">Modelo</label>
+                <select
+                  value={modeloDobradura}
+                  onChange={(e) => setModeloDobradura(e.target.value)}
+                  className="w-full bg-transparent border-0 p-1 text-sm font-medium focus:ring-0 cursor-pointer text-neutral-800"
+                >
+                  <option value="Octavo">Octavo</option>
+                  <option value="Quarto">Quarto</option>
+                  <option value="Fanzine">Fanzine</option>
+                </select>
+              </div>
+
               <div className="hidden md:block w-px bg-neutral-200/80 my-2"></div>
 
               <div className="flex-1 p-2.5 rounded-lg hover:bg-neutral-100/50 transition-colors">
@@ -335,21 +400,21 @@ export default function GeradorOctavo() {
                   />
                 </div>
 
-                <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full transition-colors ${totalPreenchidas > 16 ? 'bg-red-50 text-red-600 border border-red-200' : 'bg-neutral-100 text-neutral-600 border border-neutral-200'}`}>
-                  {totalPreenchidas}/16 Páginas
+                <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full transition-colors ${totalPreenchidas > currentConfig.maxPages ? 'bg-red-50 text-red-600 border border-red-200' : 'bg-neutral-100 text-neutral-600 border border-neutral-200'}`}>
+                  {totalPreenchidas}/{currentConfig.maxPages} Páginas
                 </span>
               </div>
               <textarea
-                className={`w-full h-[400px] p-5 bg-white border ${totalPreenchidas > 16 ? 'border-red-300 focus:ring-red-500/10 focus:border-red-500' : 'border-neutral-200 focus:ring-neutral-900/5 focus:border-neutral-900'} rounded-xl focus:outline-none focus:ring-4 transition-all resize-y font-mono text-[13px] leading-relaxed text-neutral-700 shadow-sm`}
+                className={`w-full h-[400px] p-5 bg-white border ${totalPreenchidas > currentConfig.maxPages ? 'border-red-300 focus:ring-red-500/10 focus:border-red-500' : 'border-neutral-200 focus:ring-neutral-900/5 focus:border-neutral-900'} rounded-xl focus:outline-none focus:ring-4 transition-all resize-y font-mono text-[13px] leading-relaxed text-neutral-700 shadow-sm`}
                 placeholder="Escreva seu conteúdo em Markdown (use '---' para quebrar página)..."
                 spellCheck="false"
                 value={textoLongo}
                 onChange={(e) => setTextoLongo(e.target.value)}
               />
-              {totalPreenchidas > 16 && (
+              {totalPreenchidas > currentConfig.maxPages && (
                 <p className="text-red-500 text-xs mt-3 flex items-center gap-1.5 font-medium animate-in slide-in-from-top-1 fade-in duration-200">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
-                  Atenção: Você ultrapassou o limite do Octavo (16 páginas). O conteúdo extra será ignorado na montagem.
+                  Atenção: Você ultrapassou o limite do layout {modeloDobradura} ({currentConfig.maxPages} páginas). O conteúdo extra será ignorado na montagem.
                 </p>
               )}
             </div>
@@ -368,8 +433,10 @@ export default function GeradorOctavo() {
         </div>
       </div>
 
-      <RenderSheet paginas={paginasFrente} titulo="Folha 1 - FRENTE" />
-      <RenderSheet paginas={paginasVerso} titulo="Folha 1 - VERSO" isLast={true} />
+      <RenderSheet paginas={currentConfig.frente} titulo={`Folha 1 - FRENTE (${modeloDobradura})`} isLast={!currentConfig.hasVerso} />
+      {currentConfig.hasVerso && (
+        <RenderSheet paginas={currentConfig.verso} titulo={`Folha 1 - VERSO (${modeloDobradura})`} isLast={true} />
+      )}
 
       {/* Footer */}
       <footer className="max-w-4xl mx-auto mt-16 print:hidden flex flex-col items-center justify-center text-sm text-neutral-400 pb-12">
