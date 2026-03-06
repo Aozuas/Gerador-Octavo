@@ -1,8 +1,17 @@
-'use client';
-
 import React from 'react';
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { BookOpen, HelpCircle, FileText, ArrowLeftRight, Scissors } from 'lucide-react';
+
+export const metadata: Metadata = {
+    title: 'História dos Formatos: Octavo, Quarto e Fanzine',
+    description: 'Conheça as origens e a história dos principais padrões de encadernação de bolso, da antiguidade até os fanzines DIY.',
+    openGraph: {
+        title: 'Uma Breve História dos Formatos (Octavo, Quarto e Fanzine)',
+        description: 'Entenda como funcionam as dobraduras da prensa manual clássica e quando escolher cada modelo para seu projeto impresso.',
+        type: 'article',
+    }
+};
 
 export default function BreveHistoria() {
     return (

@@ -13,8 +13,26 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Gerador de Octavo Editorial',
+  metadataBase: new URL('https://octavo.corrupiola.com.br'),
+  title: {
+    default: 'Gerador de Octavo Editorial',
+    template: '%s | Gerador Octavo'
+  },
   description: 'Gerador de cadernos octavos para diagramação manual',
+  keywords: ['editoração', 'diagramação', 'octavo', 'fanzine', 'corrupiola', 'autopublicação', 'livromanual'],
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    url: 'https://octavo.corrupiola.com.br',
+    title: 'Gerador de Octavo Editorial',
+    description: 'Gerador de cadernos octavos para diagramação manual',
+    siteName: 'Gerador Octavo',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Gerador de Octavo Editorial',
+    description: 'Gerador de cadernos octavos para diagramação manual',
+  },
 };
 
 export default function RootLayout({
@@ -30,7 +48,7 @@ export default function RootLayout({
           {children}
         </TooltipProvider>
         <Analytics />
-        {process.env.NODE_ENV === 'development' && <VercelToolbar />}
+        <VercelToolbar />
       </body>
     </html>
   );
